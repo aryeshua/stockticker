@@ -1,0 +1,13 @@
+development: &default
+  adapter: postgresql
+  template: template0
+  encoding: unicode
+  database: postgres
+  pool: 5
+  username: b0otleg
+  password: z3dcf73e
+  host: localhost
+
+test:
+  <<: *default
+  database: myapp_test
