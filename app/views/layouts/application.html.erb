@@ -9,14 +9,55 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
-	<% if notice %>
-	  <p class="alert alert-success"><%= notice %></p>
-	<% end %>
-	<% if alert %>
-	  <p class="alert alert-danger"><%= alert %></p>
-	<% end %>
-    <%= yield %>
+ <body>
+  <% if notice %>
+    <p class="alert alert-success"><%= notice %></p>
+  <% end %>
+  <% if alert %>
+    <p class="alert alert-danger"><%= alert %></p>
+  <% end %>
+  
   </body>
 </html>
 
+
+<html>
+ <% if user_signed_in? %>
+  <body>
+    <div id="main-container" class="container">
+      <div class="row">
+        <div class="col-xs-2">
+          <div class="panel panel-primary">
+            <div class="panel-heading"><center><b>Watch List</b></center></div>
+              <center>
+                <% @stocks.each do |stock| %>
+                  <tr>
+                    <td><%= link_to stock.ticker, stock_path(:id=>stock.id,:ticker=>stock.ticker) %></td>
+                    <td><%= link_to 'Delete', stock_path(stock), method: :delete %></td>
+                    <br>
+                  </tr>
+                <% end %>
+                <br>
+                <%= simple_form_for @add_stock do |f| %>
+                <center>Add Stock</center>
+                <%= f.input :ticker, label: false %>
+                <br>
+                <center><%= f.button :submit, 'Add'  %></center>
+                <% end %>
+              </center>
+          </div>  
+      
+        </div>  
+
+        <div class="col-xs-10">
+        <%=yield%>
+        </div>
+      </div>
+    </div>
+  </body>
+  <% else %>
+    <%= yield %>
+  <% end %>
+</html>
+
+ 

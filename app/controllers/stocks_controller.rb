@@ -1,6 +1,10 @@
 class StocksController < ApplicationController
 	def show
 
+	# Initialioze Left side bar (Stock Watch List)
+	@stocks = Stock.where(user_id: current_user.id).all
+	@add_stock = Stock.new			
+
   	# Selects the selected stock belonging to current user from parameters
 
   	ticker = params[:ticker]
@@ -9,24 +13,40 @@ class StocksController < ApplicationController
   	# Utilizes gem to get information based on stock ticker value
 
   	stock_to_json = StockQuote::Stock.company(stock_select).to_json
-  	stock_chart_to_json = StockQuote::Stock.batch('chart',stock_select,'1m').to_json
+  	stock_chart_to_json = StockQuote::Stock.batch('chart',stock_select,'3m').to_json
 
   	# Allows us to display data in view
 
 	@stock_info = JSON.parse(stock_to_json)
 	@stock_chart = JSON.parse(stock_chart_to_json)
 
-	# Let's calculate simple moving average
-	sum = 0
-	number_of_days = @stock_chart['chart'].count
+	# Load Up Data for Chart
+	stock_chart_to_json_for_graph = StockQuote::Stock.batch('chart',stock_select,'1m').to_json
+	@stock_graph = JSON.parse(stock_chart_to_json_for_graph)
 
-	@stock_chart['chart'].each do |stock|
-		sum = sum + stock['close']
+	array_date = []
+	array_price = []
+
+	@stock_graph['chart'].each do |stock|
+		array_date.push(stock['date'])
+		array_price.push(stock['close'])
 	end
 
-	@sum = (sum/number_of_days).round(2)
+
+	# Chart
+
+	@chart = LazyHighCharts::HighChart.new('graph') do |f|
+
+    f.title({ text: "Price (last 30 days)"})
+
+    f.options[:xAxis][:categories] = array_date
+
+    f.series(:type=> 'spline',:name=> 'Average', 
+
+             :data=> array_price)
 
 	end
+end
 
 	def create
 		@stock = Stock.new(stock_params)
@@ -37,6 +57,7 @@ class StocksController < ApplicationController
 
 		if !stock_to_json.present?
 			redirect_to :controller => 'home', :action => 'index' 
+			flash[:alert] = "Stock symbol does not exist."
 		else
 			@stock.save
 			redirect_to :controller => 'home', :action => 'index' 

@@ -1,50 +1,76 @@
 <center>
-	<b> <%= @stock_info['symbol'] %> (<%= @stock_info['company_name'] %>)</b>
-	<br>
-	<br>
-	<u>Symbol</u>: <%= @stock_info['symbol'] %>
-	<br>
-	<u>Company Name</u>: <%= @stock_info['company_name'] %>
-	<br>
-	<u>Exchange</u>: <%= @stock_info['exchange'] %>
-	<br>
-	<u>Industry</u>: <%= @stock_info['industry'] %>
-	<br>
-	<u>Website</u>: <%= @stock_info['website'] %>
-	<br>
-	<u>Description</u>: <%= @stock_info['description'] %>
-	<br>
-	<u>CEO</u>: <%= @stock_info['ceo'] %>
-	<br>
-	<u>Issue Type</u>: <%= @stock_info['issue_type'] %>
-	<br>
-	<u>Sector</u>: <%= @stock_info['sector'] %>
-	<br>
-	<br>
-	<table>
-		<tr>
-			<th>Date</th>
-			<th>Open</th>
-			<th>High</th>
-			<th>Low</th>
-			<th>Close</th>
-			<th>Volume</th>
-		</tr>
+	<div class="panel panel-primary">
+   		<div class="panel-heading">
+   			<center>
+				<b> <%= @stock_info['symbol'] %> (<%= @stock_info['company_name'] %>)</b>
+   			</center>
+   		</div>
+		<br>
+		<br>
+		<u>Symbol</u>: <%= @stock_info['symbol'] %>
+		<br>
+		<u>Company Name</u>: <%= @stock_info['company_name'] %>
+		<br>
+		<u>Exchange</u>: <%= @stock_info['exchange'] %>
+		<br>
+		<u>Industry</u>: <%= @stock_info['industry'] %>
+		<br>
+		<u>Website</u>: <%= @stock_info['website'] %>
+		<br>
+		<u>Description</u>: <%= @stock_info['description'] %>
+		<br>
+		<u>CEO</u>: <%= @stock_info['ceo'] %>
+		<br>
+		<u>Issue Type</u>: <%= @stock_info['issue_type'] %>
+		<br>
+		<u>Sector</u>: <%= @stock_info['sector'] %>
+		<br>
+		<br>
+
+<%= high_chart("some_id", @chart) %>
+
+		<table class="table table-striped table-bordered">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">Date</th>
+					<th scope="col">Open</th>
+					<th scope="col">High</th>
+					<th scope="col">Low</th>
+					<th scope="col">Close</th>
+					<th scope="col">Volume</th>
+					<th scope="col">SMA (5 Days)</th>
+				</tr>
+			</thead>
+		
+		<% count = 60 %>		
+		<% five_day_sum = 0 %>
 		<% @stock_chart['chart'].each do |stock| %>
-		<tr>
+			<% if count >= 100 %>
+			<% five_day_sum = stock['close'] + five_day_sum %>
+			<% end %>
+			<% count = count + 1 %>
+			<tr>
+			<% if count >= 101 %> 
 			<td><%= stock['date'] %></td>
 			<td><%= stock['open'] %></td>
 			<td><%= stock['high'] %></td>
 			<td><%= stock['low'] %></td>
 			<td><%= stock['close'] %></td>
 			<td><%= stock['volume'] %></td>
-		</tr>
+			<td>
+				<% if (count) % 5 == 0 %>
+					<%= (five_day_sum/5).round(2) %>
+					<% five_day_sum = 0 %>
+				<% end %>		
+			</td>	
+			</tr>
+			<% end %>
 		<% end %>
 	</table>
 	<br>
 	<br>
-	<u>Moving Average over <%= @stock_chart['chart'].count %> Days</u>: <%= @sum %>
-	<br>
-	<br>
 	<%= link_to 'Return', home_index_url  %>
 </center>	
+		</div>
+	</div>
+	

@@ -1,27 +1,11 @@
-<center>
-	<br>
-	<b> Add Stock by Symbol</b>
-	<br>
-	<%= simple_form_for @add_stock do |f| %>
-	  <%= f.input :ticker %>
-	  <br>
-	  <%= f.button :submit %>
-	<% end %>
-	<br>
-	<b> Stock Watch List</b>
-	<br>
 
-	<% @stocks.each do |stock| %>
-	<tr>
-		<td><%= link_to stock.ticker, stock_path(:id=>stock.id,:ticker=>stock.ticker) %></td>
-		<td><%= link_to 'Delete', stock_path(stock), method: :delete %></td>
-		<br>
-	</tr>
-	<% end %>
-	<br>
+<div class="panel panel-primary">
+	<div class="panel-heading"><center><b>SimpleStock</b></center></div>
+		<div class="panel-body">
+		
+				<p>Welcome to Andrew Cheng's Cisco Programming Challenge! Add a stock using the navigation panel to your left and use the same panel to select and view stock data.</p>
+			
+		</div>	
+	</div>
+</div>	
 
-	<% if user_signed_in? %>
-  		<%= link_to('Logout', destroy_user_session_path, method: :delete) %>        
-	<% end %>
-
-</center>
