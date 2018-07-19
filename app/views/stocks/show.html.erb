@@ -21,7 +21,7 @@
 		<br>
 		<u>CEO</u>: <%= @stock_info['ceo'] %>
 		<br>
-		<u>Issue Type</u>: <%= @stock_info['issue_type'] %>
+		<u>Issue Type</u>: <%= @stock_info['issue_type'].upcase %>
 		<br>
 		<u>Sector</u>: <%= @stock_info['sector'] %>
 		<br>
@@ -43,14 +43,13 @@
 			</thead>
 		
 		<% count = 60 %>		
-		<% five_day_sum = 0 %>
-		<% @stock_chart['chart'].each do |stock| %>
-			<% if count >= 100 %>
-			<% five_day_sum = stock['close'] + five_day_sum %>
-			<% end %>
+		<% sum = 0 %>
+		<% @stock_chart['chart'].each_with_index do |stock, index| %>
+			
 			<% count = count + 1 %>
 			<tr>
 			<% if count >= 101 %> 
+			<% sum = stock['close'] + sum %>
 			<td><%= stock['date'] %></td>
 			<td><%= stock['open'] %></td>
 			<td><%= stock['high'] %></td>
@@ -58,11 +57,9 @@
 			<td><%= stock['close'] %></td>
 			<td><%= stock['volume'] %></td>
 			<td>
-				<% if (count) % 5 == 0 %>
-					<%= (five_day_sum/5).round(2) %>
-					<% five_day_sum = 0 %>
-				<% end %>		
-			</td>	
+			<%= (((@stock_chart['chart'][index]['close']) + (@stock_chart['chart'][index-1]['close']) + (@stock_chart['chart'][index-2]['close']) + (@stock_chart['chart'][index-3]['close'])+ (@stock_chart['chart'][index-4]['close']))/5).round(2)
+			%>
+			</td>
 			</tr>
 			<% end %>
 		<% end %>

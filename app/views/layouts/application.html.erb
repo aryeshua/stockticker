@@ -39,11 +39,14 @@
                 <% end %>
                 <br>
                 <%= simple_form_for @add_stock do |f| %>
-                <center>Add Stock</center>
-                <%= f.input :ticker, label: false %>
-                <br>
-                <center><%= f.button :submit, 'Add'  %></center>
+                  <center>Add Stock</center>
+                  <%= f.input :ticker, label: false %>
+                  <br>
+                  <center><%= f.button :submit, 'Add'  %></center>
                 <% end %>
+                <br>
+                <br>
+                <%= link_to('Logout', destroy_user_session_path, method: :delete) %>    
               </center>
           </div>  
       
