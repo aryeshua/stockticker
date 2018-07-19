@@ -1,0 +1,27 @@
+<center>
+	<br>
+	<b> Add Stock by Symbol</b>
+	<br>
+	<%= simple_form_for @add_stock do |f| %>
+	  <%= f.input :ticker %>
+	  <br>
+	  <%= f.button :submit %>
+	<% end %>
+	<br>
+	<b> Stock Watch List</b>
+	<br>
+
+	<% @stocks.each do |stock| %>
+	<tr>
+		<td><%= link_to stock.ticker, stock_path(:id=>stock.id,:ticker=>stock.ticker) %></td>
+		<td><%= link_to 'Delete', stock_path(stock), method: :delete %></td>
+		<br>
+	</tr>
+	<% end %>
+	<br>
+
+	<% if user_signed_in? %>
+  		<%= link_to('Logout', destroy_user_session_path, method: :delete) %>        
+	<% end %>
+
+</center>

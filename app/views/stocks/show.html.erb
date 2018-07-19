@@ -1,0 +1,50 @@
+<center>
+	<b> <%= @stock_info['symbol'] %> (<%= @stock_info['company_name'] %>)</b>
+	<br>
+	<br>
+	<u>Symbol</u>: <%= @stock_info['symbol'] %>
+	<br>
+	<u>Company Name</u>: <%= @stock_info['company_name'] %>
+	<br>
+	<u>Exchange</u>: <%= @stock_info['exchange'] %>
+	<br>
+	<u>Industry</u>: <%= @stock_info['industry'] %>
+	<br>
+	<u>Website</u>: <%= @stock_info['website'] %>
+	<br>
+	<u>Description</u>: <%= @stock_info['description'] %>
+	<br>
+	<u>CEO</u>: <%= @stock_info['ceo'] %>
+	<br>
+	<u>Issue Type</u>: <%= @stock_info['issue_type'] %>
+	<br>
+	<u>Sector</u>: <%= @stock_info['sector'] %>
+	<br>
+	<br>
+	<table>
+		<tr>
+			<th>Date</th>
+			<th>Open</th>
+			<th>High</th>
+			<th>Low</th>
+			<th>Close</th>
+			<th>Volume</th>
+		</tr>
+		<% @stock_chart['chart'].each do |stock| %>
+		<tr>
+			<td><%= stock['date'] %></td>
+			<td><%= stock['open'] %></td>
+			<td><%= stock['high'] %></td>
+			<td><%= stock['low'] %></td>
+			<td><%= stock['close'] %></td>
+			<td><%= stock['volume'] %></td>
+		</tr>
+		<% end %>
+	</table>
+	<br>
+	<br>
+	<u>Moving Average over <%= @stock_chart['chart'].count %> Days</u>: <%= @sum %>
+	<br>
+	<br>
+	<%= link_to 'Return', home_index_url  %>
+</center>	
