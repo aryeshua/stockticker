@@ -41,7 +41,7 @@ class StocksController < ApplicationController
 
     f.options[:xAxis][:categories] = array_date
 
-    f.series(:type=> 'spline',:name=> 'Average', 
+    f.series(:type=> 'spline',:name=> 'Price', 
 
              :data=> array_price)
 
