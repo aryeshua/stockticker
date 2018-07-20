@@ -59,8 +59,13 @@ end
 			redirect_to :controller => 'home', :action => 'index' 
 			flash[:alert] = "Stock symbol does not exist."
 		else
-			@stock.save
-			redirect_to :controller => 'home', :action => 'index' 
+			if Stock.where(user_id:current_user.id).where(ticker:@stock.ticker).present?
+				redirect_to :controller => 'home', :action => 'index' 
+				flash[:alert] = "Stock symbol already exists."
+			else
+				@stock.save
+				redirect_to :controller => 'home', :action => 'index' 
+			end
 		end
 
 	

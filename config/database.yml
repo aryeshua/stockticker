@@ -5,7 +5,7 @@ development: &default
   database: postgres
   pool: 5
   username: b0otleg
-  password: z3dcf73e
+  password: pass123
   host: localhost
 
 test:
