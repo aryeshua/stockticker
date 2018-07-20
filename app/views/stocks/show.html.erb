@@ -42,13 +42,13 @@
 				</tr>
 			</thead>
 		
-		<% count = 60 %>		
+		<% count = 101 %>		
 		<% sum = 0 %>
-		<% @stock_chart['chart'].each_with_index do |stock, index| %>
+		<% @stock_chart['chart'].each_with_index.reverse_each do |stock, index| %>
 			
-			<% count = count + 1 %>
+			<% count = count - 1  %>
 			<tr>
-			<% if count >= 101 %> 
+			<% if count >= 79 %> 
 			<% sum = stock['close'] + sum %>
 			<td><%= stock['date'] %></td>
 			<td><%= stock['open'] %></td>

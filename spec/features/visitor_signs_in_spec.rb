@@ -134,6 +134,8 @@ feature 'Visitor registers, logs out, and signs in' do
     expect(page).to have_css('#stock_graph')
 
     # The value 65 for count is the magic number to check if table is properly populating with data from API
+    # This value may need to change if during a certain time period, the number of data points in 3 months changes
+    # Due to a difference in the number of days that the market is open during a given 3 month period
     expect(page).to have_css('#stock_table tr', :count => 65)
 
   end
